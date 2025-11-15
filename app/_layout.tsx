@@ -1,24 +1,61 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { Poppins_400Regular, Poppins_700Bold, useFonts } from "@expo-google-fonts/poppins";
+import { Stack, usePathname, useRouter } from "expo-router";
+import React, { useEffect } from "react";
+import { ActivityIndicator, View } from "react-native";
+import Navbar from "../components/Navbar";
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+export default function Layout() {
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_700Bold,
+  });
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+  const router = useRouter();
+  const pathname = usePathname();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  useEffect(() => {
+    if (fontsLoaded && pathname === "/") {
+      router.replace("/welcome");
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#111", // mismo fondo que el welcome
+        }}
+      >
+        <ActivityIndicator size="large" color="#FFD700" />
+      </View>
+    );
+  }
+
+  // 🔹 Render principal
+  // Si estamos en welcome, renderizamos solo el Stack sin Navbar
+  if (pathname === "/welcome") {
+    return (
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: "#111" }, // fondo negro igual al welcome
+        }}
+      />
+    );
+  }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: "#fff", paddingBottom: 70 },
+        }}
+      />
+      <Navbar />
+    </View>
   );
 }
