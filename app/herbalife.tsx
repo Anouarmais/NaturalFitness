@@ -1,10 +1,11 @@
+import { useRouter } from "expo-router";
 import React from "react";
-import { Linking } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styled from "styled-components/native";
 
 const mainColor = "#FFD700";
 
-const Container = styled.ScrollView`
+const Container = styled.View`
   flex: 1;
   background-color: #f9f9f9;
   padding: 20px;
@@ -12,8 +13,7 @@ const Container = styled.ScrollView`
 
 const Header = styled.View`
   width: 100%;
-  margin-top: 35px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   align-items: flex-start;
 `;
 
@@ -21,8 +21,6 @@ const AppTitle = styled.Text`
   font-size: 22px;
   font-family: "Poppins_700Bold";
   color: #222;
-  letter-spacing: 0.5px;
-  text-align: left;
   margin-bottom: 5px;
 `;
 
@@ -33,17 +31,24 @@ const Underline = styled.View`
   border-radius: 2px;
 `;
 
+/* 🔥 CARD CON TOQUE PREMIUM EN AMARILLO */
 const Card = styled.TouchableOpacity`
   flex-direction: row;
   background-color: #fff;
   border-radius: 18px;
-  padding: 16px;
-  margin-bottom: 18px;
+  padding: 14px;
+  margin-bottom: 16px;
   align-items: center;
   justify-content: space-between;
+ margin-bottom: 24px;
+  border-left-width: 6px;
+  border-left-color: ${mainColor};
+
   border-width: 1px;
-  border-color: rgba(0, 0, 0, 0.05);
-  elevation: 3;
+  border-color: rgba(0, 0, 0, 0.06);
+
+  elevation: 4;
+  height: 135px;
 `;
 
 const Info = styled.View`
@@ -53,83 +58,87 @@ const Info = styled.View`
 
 const Title = styled.Text`
   font-family: "Poppins_700Bold";
-  font-size: 20px;
+  font-size: 18px;
   color: #000;
 `;
 
 const Description = styled.Text`
   font-family: "Poppins_400Regular";
-  font-size: 14px;
+  font-size: 13px;
   color: #555;
-  margin-top: 4px;
-`;
-
-const OrderButton = styled.TouchableOpacity`
-  margin-top: 8px;
-  background-color: ${mainColor};
-  padding: 8px 12px;
-  border-radius: 10px;
-  align-self: flex-start;
-`;
-
-const OrderText = styled.Text`
-  color: #000;
-  font-family: "Poppins_700Bold";
-  font-size: 14px;
+  margin-top: 3px;
 `;
 
 const SupplementImage = styled.Image`
-  width: 110px;
-  height: 110px;
-  border-radius: 14px;
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
 `;
+type AlimentacionRoute =
+  | "/Alimentacion/deporte"
+  | "/Alimentacion/packs"
+  | "/Alimentacion/perderPeso"
+  | "/Alimentacion/otros";
+export default function HerbalifeCategorias() {
+  const insets = useSafeAreaInsets();
+  const router = useRouter();
 
-export default function ComplementosAlimentarios() {
-  const supplements = [
-    {
-      title: "Proteína",
-      description: "Ayuda a reparar y construir músculo tras el entrenamiento.",
-      image: require("../assets/images/proteina.png"),
-    },
-    {
-      title: "Creatina",
-      description: "Aumenta fuerza y rendimiento en ejercicios de alta intensidad.",
-      image: require("../assets/images/creatina.png"),
-    },
-    {
-      title: "BCAA",
-      description: "Aminoácidos que ayudan a reducir fatiga y favorecer la recuperación.",
-      image: require("../assets/images/bcaa.png"),
-    },
-    {
-      title: "Multivitamínico",
-      description: "Complementa la dieta con vitaminas y minerales esenciales.",
-      image: require("../assets/images/multivitaminico.png"),
-    },
-  ];
+const supplements: {
+  title: string;
+  description: string;
+  image: any; // sigue siendo any si mezclas local y remoto
+  route: AlimentacionRoute;
+}[] = [
+  {
+    title: "Deporte",
+    description: "Productos para mejorar tu rendimiento y energía.",
+    image: { uri: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/1467_Box.png/jcr:content/renditions/cq5dam.web.200.200.png" },
+    route: "/Alimentacion/deporte",
+  },
+  {
+    title: "Packs",
+    description: "Combinaciones listas para tus objetivos.",
+    image: { uri: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/052Z_Crema_Vainilla_780_Paquete_Desayuno.png/jcr:content/renditions/cq5dam.web.200.200.png" },
+    route: "/Alimentacion/packs",
+  },
+  {
+    title: "Perder peso",
+    description: "Opciones para ayudarte a bajar grasa saludablemente.",
+    image: { uri: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/09-Sep/172K_SP_PO_PDMVegan_Square_1300px.jpg/jcr:content/renditions/cq5dam.web.200.200.jpeg" },
+    route: "/Alimentacion/perderPeso",
+  },
+  {
+    title: "Otros",
+    description: "Productos de bienestar y uso general.",
+    image: require("../assets/images/multivitaminico.png"),
+    route: "/Alimentacion/otros",
+  },
+];
 
-  const orderNow = (title: string) => {
-    const phoneNumber = "34610101096";
-    const message = encodeURIComponent(`Hola, quiero pedir ${title}`);
-    Linking.openURL(`https://wa.me/${phoneNumber}?text=${message}`);
-  };
+
+
 
   return (
-    <Container>
+    <Container style={{ paddingTop: insets.top + 10 }}>
       <Header>
-        <AppTitle>Complementos Alimentarios</AppTitle>
+        <AppTitle>Alimentación</AppTitle>
         <Underline />
       </Header>
 
       {supplements.map((supp, idx) => (
-        <Card key={idx} activeOpacity={0.85}>
+        <Card
+          key={idx}
+          activeOpacity={0.85}
+          onPress={() => router.push(supp.route)}
+
+
+
+        >
           <Info>
             <Title>{supp.title}</Title>
             <Description>{supp.description}</Description>
-            <OrderButton onPress={() => orderNow(supp.title)}>
-              <OrderText>Ordénalo ya</OrderText>
-            </OrderButton>
           </Info>
+
           <SupplementImage source={supp.image} resizeMode="cover" />
         </Card>
       ))}

@@ -11,7 +11,7 @@ import {
 import styled from "styled-components/native";
 
 
-const mainColor = "#FFD700"; // 🟡 Color principal
+const mainColor = "#FFD700";
 
 // 🔹 Contenedor general
 const Container = styled.ScrollView`
@@ -98,7 +98,7 @@ export default function Reto10Dias() {
     <TouchableOpacity onPress={() => router.push("/premium" as any)}>
       <Ionicons name="arrow-back" size={26} color="#000" />
     </TouchableOpacity>
-    <TitleHeader>Ejercicio</TitleHeader>
+    <TitleHeader>Reto 10 Dias</TitleHeader>
   </HeaderTop>
   <Underline />
 </Header>

@@ -92,7 +92,7 @@ export default function SeguimientoHeader() {
   const [imc, setImc] = useState("");
 
   const openForm = () => {
-    setVisible(true);
+    setVisible(true);   
     Animated.timing(slideAnim, {
       toValue: height * 0.1,
       duration: 300,

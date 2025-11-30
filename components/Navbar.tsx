@@ -15,7 +15,7 @@ const Container = styled.View`
   align-items: center;
   background-color: rgba(255, 255, 255, 0.95);
   border-top-width: 0.5px;
-  border-top-color: rgba(120, 120, 120, 0.2);
+  border-top-color: rgba(167, 12, 12, 0.2);
   elevation: 0;
   shadow-opacity: 0;
 `;

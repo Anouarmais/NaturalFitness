@@ -31,14 +31,14 @@ export default function Index() {
       <MuscleCard
         title="Pecho"
         image={require("../assets/images/pecho.png")}
-        exercisesCount={8}
+        exercisesCount={10}
         extraInfo="Fuerza y volumen"
       />
 
       <MuscleCard
         title="Espalda"
         image={require("../assets/images/espalda.png")}
-        exercisesCount={7}
+        exercisesCount={9}
         extraInfo="Postura y control"
       />
 
@@ -50,10 +50,28 @@ export default function Index() {
       />
 
       <MuscleCard
-        title="Brazo"
+        title="Hombro"
         image={require("../assets/images/homro.png")}
-        exercisesCount={6}
+        exercisesCount={9}
         extraInfo="Estabilidad y movilidad"
+      />
+        <MuscleCard
+        title="Biceps"
+        image={require("../assets/images/homro.png")}
+        exercisesCount={9}
+        extraInfo="Estabilidad y movilidad"
+      />
+      <MuscleCard
+        title="Gluteos"
+        image={require("../assets/images/pierna.png")}
+        exercisesCount={8}
+        extraInfo="Fuerza y potencia"
+      />
+      <MuscleCard
+        title="Triceps"
+        image={require("../assets/images/homro.png")}
+        exercisesCount={7}
+        extraInfo="Fuerza y potencia"
       />
 
     </Container>

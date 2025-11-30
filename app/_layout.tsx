@@ -26,7 +26,7 @@ export default function Layout() {
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#111", // mismo fondo que el welcome
+          backgroundColor: "#111",
         }}
       >
         <ActivityIndicator size="large" color="#FFD700" />
@@ -34,27 +34,34 @@ export default function Layout() {
     );
   }
 
-  // 🔹 Render principal
-  // Si estamos en welcome, renderizamos solo el Stack sin Navbar
+  // 🔹 Si estamos en welcome, NO mostrar la navbar
   if (pathname === "/welcome") {
     return (
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: "#111" }, // fondo negro igual al welcome
+          contentStyle: { backgroundColor: "#111" },
         }}
       />
     );
   }
 
+  // 🔹 Layout normal con navbar abajo
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: "#fff", paddingBottom: 70 },
-        }}
-      />
+    <View style={{ flex: 1, backgroundColor: "#111" }}>
+      
+      {/* CONTENIDO DE LAS SCREENS */}
+      <View style={{ flex: 1, paddingBottom: 70 }}>
+        {/* paddingBottom igual a la altura del navbar (ajusta si hace falta) */}
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: "#111" },
+          }}
+        />
+      </View>
+
+      {/* NAVBAR FIJA ABAJO */}
       <Navbar />
     </View>
   );

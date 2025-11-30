@@ -1,5 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { Image } from "react-native";
+
 import React, { useEffect, useRef, useState } from "react";
 import {
   Animated,
@@ -134,13 +136,13 @@ export default function Premium() {
       id: "cursoNut",
       title: "Curso de Nutrición",
       subtitle: "Cambiar tus hábitos alimenticios, cambia tu vida.",
-      image: require("../assets/images/cursoNutricion.png"),
+      image: "https://i.ytimg.com/vi/uFeqNVfU4Q4/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAeeuk4Y8nlQjh8wkGL1bRgzIiGCg",
     },
     {
       id: "reto21",
       title: "Reto de 21 Días",
       subtitle: "La experiencia completa de transformación.",
-      image: require("../assets/images/21dias.png"),
+       image: require("../assets/images/wedo.png"),
     },
   ];
 
@@ -166,27 +168,38 @@ export default function Premium() {
           <AppTitle>Planes Premium</AppTitle>
           <Underline />
         </Header>
+{cards.map((item) => (
+  <Card
+    key={item.id}
+    onPress={() => router.push(`/premium/${item.id}` as any)}
+  >
+    {item.id === "reto21" ? (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Image
+          source={item.image} // imagen local
+          style={{ width: 300, height: 300, resizeMode: "contain" }} // tamaño más pequeño
+        />
+        <InfoContainer>
+          <Title>{item.title}</Title>
+          <Subtitle>{item.subtitle}</Subtitle>
+        </InfoContainer>
+      </View>
+    ) : (
+      <ImageBackground
+        source={typeof item.image === "string" ? { uri: item.image } : item.image}
+        style={{ width: "100%", height: "100%" }}
+        resizeMode="cover"
+      >
+        <Overlay />
+        <InfoContainer>
+          <Title>{item.title}</Title>
+          <Subtitle>{item.subtitle}</Subtitle>
+        </InfoContainer>
+      </ImageBackground>
+    )}
+  </Card>
+))}
 
-        {cards.map((item) => (
-          <Card
-            key={item.id}
-            onPress={() => router.push(`/premium/${item.id}` as any)}
-          >
-            <ImageBackground
-              source={
-                typeof item.image === "string" ? { uri: item.image } : item.image
-              }
-              style={{ width: "100%", height: "100%" }}
-              resizeMode="cover"
-            >
-              <Overlay />
-              <InfoContainer>
-                <Title>{item.title}</Title>
-                <Subtitle>{item.subtitle}</Subtitle>
-              </InfoContainer>
-            </ImageBackground>
-          </Card>
-        ))}
       </Container>
 
       {showHint && (

@@ -1,11 +1,13 @@
+import { useRouter } from "expo-router";
 import React from "react";
 import styled from "styled-components/native";
-
+const mainColor = "#FFD700"; 
 interface MuscleCardProps {
   title: string;
   image: any;
   exercisesCount: number;
   extraInfo?: string;
+  onPress?: () => void;
 }
 
 const Card = styled.TouchableOpacity`
@@ -58,15 +60,27 @@ export default function MuscleCard({
   image,
   exercisesCount,
   extraInfo,
+    onPress, 
 }: MuscleCardProps) {
+
+  const router = useRouter();
+
   return (
-    <Card activeOpacity={0.85}>
+    <Card
+      activeOpacity={0.85}
+      onPress={() =>
+        router.push(`/ejercicios/${title.toLowerCase()}`)
+
+      }
+    >
       <Info>
         <Title>{title}</Title>
         <SubText>{exercisesCount} ejercicios</SubText>
         {extraInfo && <Extra>{extraInfo}</Extra>}
       </Info>
-      <MuscleImage source={image} resizeMode="cover" />
+
+      <MuscleImage source={image} />
     </Card>
   );
 }
+
