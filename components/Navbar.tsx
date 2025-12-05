@@ -54,27 +54,26 @@ export default function Navbar() {
     { name: "/", icon: "home-outline", label: "Ejercicios" },
     { name: "/seguimiento", icon: "barbell-outline", label: "Seguimiento" },
     { name: "/premium", icon: "star-outline", label: "Premium" },
-    { name: "/herbalife", icon: "nutrition-outline", label: "Herba Life" },
+    { name: "/herbalife", icon: "nutrition-outline", label: "HerbaLife" },
+    { name: "/trabajaconNosotros", icon: "cash-outline", label: "Ingresos Extra" },
   ];
 
   // 🔹 Función que evita navegar si ya estamos en la misma ruta
-const navigateTo = (path: any) => {
-  if (pathname !== path) {
-    router.push(path as any);
-  }
-};
-
+  const navigateTo = (path: any) => {
+    if (pathname !== path) {
+      router.push(path as any);
+    }
+  };
 
   return (
     <Container>
       {tabs.map((tab) => {
         const isActive = pathname === tab.name;
-
         return (
           <IconButton key={tab.name} onPress={() => navigateTo(tab.name)}>
             <Ionicons
               name={tab.icon as any}
-              size={26}
+              size={isActive ? 32 : 18} // 🔹 tamaño según activo
               color={isActive ? "#FFD700" : "rgba(100, 100, 100, 0.6)"}
             />
             <Label active={isActive}>{tab.label}</Label>

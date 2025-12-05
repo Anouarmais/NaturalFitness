@@ -126,6 +126,12 @@ export default function Premium() {
       image:
         "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=800&q=60",
     },
+       {
+      id: "reto21",
+      title: "Reto de 21 Días",
+      subtitle: "La experiencia completa de transformación.",
+       image: require("../assets/images/wedo.png"),
+    },
     {
       id: "maderoterapia",
       title: "Maderoterapia",
@@ -138,12 +144,7 @@ export default function Premium() {
       subtitle: "Cambiar tus hábitos alimenticios, cambia tu vida.",
       image: "https://i.ytimg.com/vi/uFeqNVfU4Q4/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAeeuk4Y8nlQjh8wkGL1bRgzIiGCg",
     },
-    {
-      id: "reto21",
-      title: "Reto de 21 Días",
-      subtitle: "La experiencia completa de transformación.",
-       image: require("../assets/images/wedo.png"),
-    },
+ 
   ];
 
   useEffect(() => {

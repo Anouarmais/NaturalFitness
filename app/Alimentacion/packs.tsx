@@ -38,43 +38,38 @@ const SectionTitle = styled.Text`
 `;
 
 const Card = styled.View`
-  flex-direction: row;
   background-color: #fff;
   border-radius: 18px;
-  padding: 20px;
   margin-bottom: 24px;
-  align-items: center;
-  justify-content: space-between;
+  overflow: hidden;
   border: 2px solid #000;
 `;
 
+const ProductImage = styled.Image`
+  width: 100%;
+  height: 180px;
+`;
+
 const Info = styled.View`
-  flex: 1;
-  margin-right: 10px;
+  padding: 15px;
 `;
 
 const ProductTitle = styled.Text`
   font-family: "Poppins_700Bold";
-  font-size: 14px;
+  font-size: 16px;
   color: #000;
 `;
 
 const ProductDescription = styled.Text`
   font-family: "Poppins_400Regular";
-  font-size: 11px;
+  font-size: 12px;
   color: #555;
-  margin-top: 3px;
-`;
-
-const ProductImage = styled.Image`
-  width: 100px;
-  height: 100px;
-  border-radius: 12px;
+  margin-top: 4px;
 `;
 
 const WhatsAppButton = styled.TouchableOpacity`
   background-color: ${mainColor};
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: 10px;
   align-items: center;
   margin-top: 10px;
@@ -86,36 +81,34 @@ const WhatsAppText = styled.Text`
   font-size: 14px;
 `;
 
+// Productos con imágenes locales y externas
 const products = {
   perderPeso: [
     {
-      nombre: "Desayuno Saludable Herbalife Nutrition - Crema de Vainilla 780 g",
-      descripcion: "SKU 052Z | Nutrición Interna, Control de Peso, Vegetarianos, Veganos, No contienen Gluten, No contienen Lactosa, Certificado Halal",
-      imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/052Z_Crema_Vainilla_780_Paquete_Desayuno.png/jcr:content/renditions/cq5dam.web.200.200.png",
-      price: 89.74
+      nombre: "Desayuno Saludable Herbalife",
+      descripcion: "Nutrición interna, control de peso, vegano.",
+      imagen:
+        "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/052Z_Crema_Vainilla_780_Paquete_Desayuno.png/jcr:content/renditions/cq5dam.web.200.200.png",
     },
     {
       nombre: "Bebida Reductora",
-      descripcion: "SKU 598Z | Nutrición Interna, Control de Peso, Vegetarianos, Veganos, No contienen Gluten, No contienen Lactosa, Certificado Halal",
-      imagen: "https://pub-7d51dc54c0094d719feb2425f890a22c.r2.dev/Alimentacion/chupapanza.jpg",
-      price: 81.48
-    }
+      descripcion: "Control de peso y nutrición balanceada.",
+      imagen:
+        "https://pub-7d51dc54c0094d719feb2425f890a22c.r2.dev/Alimentacion/chupapanza.jpg",
+    },
   ],
   ganarMusculo: [
-{
-  nombre: "Desayuno Saludable Herbalife Nutrition - Frambuesa y Chocolate Blanco 500 g",
-  descripcion: "Proteína Rebuild + Creatina | Nutrición Interna, Control de Peso, Vegetarianos, Veganos, No contienen Gluten, No contienen Lactosa, Certificado Halal",
-  imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/2590_Caffe_Latte_Paquete_Desayuno.png/_jcr_content/renditions/cq5dam.web.200.200.png",
-  price: 81.48
-},
-{
-  nombre: "Desayuno Saludable Herbalife Nutrition - Frambuesa y Chocolate Blanco 500 g",
-  descripcion: "Creatina + Proteína Rebuild + Proteína F1 | Nutrición Interna, Control de Peso, Vegetarianos, Veganos, No contienen Gluten, No contienen Lactosa, Certificado Halal",
-  imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/044Z_Menta_Chocolate_Paquete_Desayuno_.png/_jcr_content/renditions/cq5dam.web.200.200.png",
-  price: 81.48
-}
-
-  ]
+    {
+      nombre: "Pack Básico Herbalife",
+      descripcion: "Proteína Rebuild + Creatina",
+      imagen: require("../../assets/images/packBasico1.png"),
+    },
+    {
+      nombre: "Pack Avanzado Herbalife",
+      descripcion: "Creatina + Proteína Rebuild + Proteína F1",
+      imagen: require("../../assets/images/packAvanzado1.png"),
+    },
+  ],
 };
 
 export default function Packs() {
@@ -124,11 +117,12 @@ export default function Packs() {
 
   const orderNow = (product: any) => {
     const phoneNumber = "34610101096";
-    const message = encodeURIComponent(
-      `Hola, quiero pedir ${product.nombre} `
-    );
+    const message = encodeURIComponent(`Hola, quiero pedir ${product.nombre}`);
     Linking.openURL(`https://wa.me/${phoneNumber}?text=${message}`);
   };
+
+  const renderImage = (img: any) =>
+    typeof img === "string" ? { uri: img } : img;
 
   return (
     <Container style={{ paddingTop: insets.top + 10 }}>
@@ -142,6 +136,7 @@ export default function Packs() {
       <SectionTitle>Perder Peso</SectionTitle>
       {products.perderPeso.map((product, idx) => (
         <Card key={`perder-${idx}`}>
+          <ProductImage source={renderImage(product.imagen)} resizeMode="contain" />
           <Info>
             <ProductTitle>{product.nombre}</ProductTitle>
             <ProductDescription>{product.descripcion}</ProductDescription>
@@ -149,13 +144,13 @@ export default function Packs() {
               <WhatsAppText>Ordénalo por WhatsApp</WhatsAppText>
             </WhatsAppButton>
           </Info>
-          <ProductImage source={{ uri: product.imagen }} resizeMode="cover" />
         </Card>
       ))}
 
       <SectionTitle>Ganar Músculo</SectionTitle>
       {products.ganarMusculo.map((product, idx) => (
         <Card key={`musculo-${idx}`}>
+          <ProductImage source={renderImage(product.imagen)} resizeMode="contain" />
           <Info>
             <ProductTitle>{product.nombre}</ProductTitle>
             <ProductDescription>{product.descripcion}</ProductDescription>
@@ -163,7 +158,6 @@ export default function Packs() {
               <WhatsAppText>Ordénalo por WhatsApp</WhatsAppText>
             </WhatsAppButton>
           </Info>
-          <ProductImage source={{ uri: product.imagen }} resizeMode="cover" />
         </Card>
       ))}
     </Container>

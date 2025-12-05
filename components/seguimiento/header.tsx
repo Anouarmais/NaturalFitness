@@ -97,10 +97,21 @@ export default function SeguimientoHeader() {
   const [cintura, setCintura] = useState("");
   const [cadera, setCadera] = useState("");
 
+  // 🔹 Comprobamos si todos los campos están completos
+  const isFormComplete =
+    peso &&
+    grasa &&
+    masa &&
+    agua &&
+    edadMetabolica &&
+    visceral &&
+    cintura &&
+    cadera;
+
   const openForm = () => {
     setVisible(true);   
     Animated.timing(slideAnim, {
-      toValue: height * 0.1,
+      toValue: height * 0.04,
       duration: 300,
       easing: Easing.out(Easing.ease),
       useNativeDriver: true,
@@ -110,7 +121,7 @@ export default function SeguimientoHeader() {
   const closeForm = () => {
     Keyboard.dismiss();
     Animated.timing(slideAnim, {
-      toValue: height,
+      toValue: height *1,
       duration: 300,
       easing: Easing.in(Easing.ease),
       useNativeDriver: true,
@@ -123,7 +134,7 @@ export default function SeguimientoHeader() {
 
     const keyboardShow = Keyboard.addListener(showEvent, (e) => {
       Animated.timing(slideAnim, {
-        toValue: height - e.endCoordinates.height - 20, 
+        toValue: height - e.endCoordinates.height - 250, 
         duration: 250,
         useNativeDriver: true,
       }).start();
@@ -144,19 +155,24 @@ export default function SeguimientoHeader() {
   }, []);
 
   const handleSave = async () => {
+    if (!isFormComplete) {
+      alert("Por favor, rellena todos los campos antes de guardar.");
+      return;
+    }
+
     console.log("📥 Guardando registro con valores:", {
       peso, grasa, masa, agua, edadMetabolica, visceral, cintura, cadera
     });
 
     await addRegistro(
       Number(peso),
-      grasa ? Number(grasa) : null,
-      masa ? Number(masa) : null,
-      agua ? Number(agua) : null,
-      edadMetabolica ? Number(edadMetabolica) : null,
-      visceral ? Number(visceral) : null,
-      cintura ? Number(cintura) : null,
-      cadera ? Number(cadera) : null
+      Number(grasa),
+      Number(masa),
+      Number(agua),
+      Number(edadMetabolica),
+      Number(visceral),
+      Number(cintura),
+      Number(cadera)
     );
 
     closeForm();
@@ -200,7 +216,11 @@ export default function SeguimientoHeader() {
                   <Input placeholder="Cintura (cm)" placeholderTextColor="#999" keyboardType="numeric" value={cintura} onChangeText={setCintura} />
                   <Input placeholder="Cadera (cm)" placeholderTextColor="#999" keyboardType="numeric" value={cadera} onChangeText={setCadera} />
 
-                  <SaveButton onPress={handleSave}>
+                  <SaveButton
+                    onPress={handleSave}
+                    style={{ opacity: isFormComplete ? 1 : 0.5 }}
+                    disabled={!isFormComplete}
+                  >
                     <SaveText>Guardar</SaveText>
                   </SaveButton>
 

@@ -146,7 +146,7 @@ export default function Ejercicio() {
           <TouchableOpacity onPress={() => router.push("/premium" as any)}>
             <Ionicons name="arrow-back" size={26} color="#000" />
           </TouchableOpacity>
-          <TitleHeader>Ejercicio</TitleHeader>
+          <TitleHeader>Curso Nutrición</TitleHeader>
         </HeaderTop>
         <Underline />
       </Header>

@@ -103,14 +103,11 @@ export default function Reto10Dias() {
   <Underline />
 </Header>
 
-<Underline />
-
-
         <Image
-          source={require("../../assets/images/reto10dias.png")}
+          source={require("../../assets/images/naturalLogo.png")}
           style={{
             width: "100%",
-            height: 200,
+            height: 160,
             borderRadius: 12,
             marginBottom: 20,
           }}

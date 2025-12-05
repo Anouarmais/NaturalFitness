@@ -10,11 +10,11 @@ export default function WelcomeScreen() {
 
   return (
     <Container>
-      {/* 🔹 Imagen superior sin inclinación */}
+      {/* 🔹 Imagen superior centrada */}
       <ImageContainer>
         <HeaderImage
-          source={require("../assets/images/espaldaWelc.png")} // cambia esta imagen por la tuya
-          resizeMode="cover"
+          source={require("../assets/images/naturalLogo1.png")}
+          resizeMode="contain"
         />
       </ImageContainer>
 
@@ -26,7 +26,7 @@ export default function WelcomeScreen() {
         <StartButton
           onPress={() => {
             console.log("Ir a pantalla principal");
-            router.push("/"); // redirige a la pantalla principal
+            router.push("/"); 
           }}
         >
           <ButtonText>Entrar</ButtonText>
@@ -47,24 +47,25 @@ const Container = styled.View`
 
 const ImageContainer = styled.View`
   position: absolute;
-  top: 0;
+  top: 5%; /* un poco más abajo para centrar */
   left: 0;
   right: 0;
   width: 120%;
-  height: 55%;
+  height: 75%; /* imagen más alta */
   overflow: hidden;
+  align-items: center;
+  justify-content: center; /* centrado vertical */
 `;
 
 const HeaderImage = styled.Image`
-  width: 100%;
-  height: 100%;
+  width: 70%; /* logo más pequeño */
+  height: 50%; /* logo más pequeño */
 `;
-
 
 const Content = styled.View`
   width: 100%;
   align-items: flex-start;
-  margin-bottom: 80px;
+  margin-bottom: 40px; /* apartado del texto más bajo */
 `;
 
 const Title = styled.Text`
