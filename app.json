@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "gymapp",
-    "slug": "gymapp",
+    "name": "Natural Fitness",
+    "slug": "natural-fitness",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "gymapp",
+    "scheme": "naturalfitness",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "naturalfitnesss",
+      "bundleIdentifier": "com.anouarmais.naturalfitness",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#E6F4FE"
       },
-      "package": "com.anouarmaissaydi.gymapp",
+      "package": "com.anouarmais.naturalfitness",
       "permissions": []
     },
     "web": {
