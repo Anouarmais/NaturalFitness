@@ -13,7 +13,7 @@ export default function WelcomeScreen() {
       {/* 🔹 Imagen superior sin inclinación */}
       <ImageContainer>
         <HeaderImage
-          source={require("../assets/images/espalda.png")} // cambia esta imagen por la tuya
+          source={require("../assets/images/espaldaWelc.png")} // cambia esta imagen por la tuya
           resizeMode="cover"
         />
       </ImageContainer>

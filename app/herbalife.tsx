@@ -37,7 +37,7 @@ const Card = styled.TouchableOpacity`
   background-color: #fff;
   border-radius: 18px;
   padding: 14px;
-  margin-bottom: 16px;
+
   align-items: center;
   justify-content: space-between;
  margin-bottom: 24px;
@@ -48,7 +48,7 @@ const Card = styled.TouchableOpacity`
   border-color: rgba(0, 0, 0, 0.06);
 
   elevation: 4;
-  height: 135px;
+  height: 105px;
 `;
 
 const Info = styled.View`
@@ -78,6 +78,7 @@ type AlimentacionRoute =
   | "/Alimentacion/deporte"
   | "/Alimentacion/packs"
   | "/Alimentacion/perderPeso"
+  | "/Alimentacion/cremas"
   | "/Alimentacion/otros";
 export default function HerbalifeCategorias() {
   const insets = useSafeAreaInsets();
@@ -108,11 +109,17 @@ const supplements: {
     route: "/Alimentacion/perderPeso",
   },
   {
+    title: "Cremas",
+    description: "Productos de bienestar y uso general.",
+    image: require("../assets/images/cremas.png"),
+    route: "/Alimentacion/cremas",
+  },  
+  {
     title: "Otros",
     description: "Productos de bienestar y uso general.",
     image: require("../assets/images/multivitaminico.png"),
     route: "/Alimentacion/otros",
-  },
+  }
 ];
 
 
@@ -130,9 +137,6 @@ const supplements: {
           key={idx}
           activeOpacity={0.85}
           onPress={() => router.push(supp.route)}
-
-
-
         >
           <Info>
             <Title>{supp.title}</Title>

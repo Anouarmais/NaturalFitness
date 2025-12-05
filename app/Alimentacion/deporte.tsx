@@ -149,6 +149,41 @@ const products = [
     price: "15.58",
     sku: "149K",
   },
+  {
+    title: "Niteworks Limón 15 raciones",
+    description: "Nutrición Interna, Nutrición Objetiva",
+    image: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/3150_Nite_1300x1300px.png/jcr:content/renditions/cq5dam.web.200.200.png",
+    price: "57.15",
+    sku: "3150"
+  },
+  {
+    title: "Hydrate Naranja 20 u. x 5,3 gr",
+    description: "Nutrición Interna, Energía, Deporte y Forma Física, Vegetarianos, Veganos, No contienen Gluten, No contienen Lactosa, No contienen Soja, No contienen Fructosa",
+    image: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/1433_Hydrate.png/jcr:content/renditions/cq5dam.web.200.200.png",
+    price: "22.39",
+    sku: "1433"
+  },
+  {
+    title: "Creatine+ Sin Sabor 228 g",
+    description: "Nutrición Interna, Energía, Deporte y Forma Física",
+    image: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2025/07-Jul/488K.jpg/jcr:content/renditions/cq5dam.web.200.200.jpeg",
+    price: "19.46",
+    sku: "488K"
+  },
+  {
+    title: "Fórmula 2 Hombre - Complejo de Vitaminas y Minerales",
+    description: "Esenciales, Nutrición Interna, No contienen Gluten, No contienen Lactosa, No contienen Soja, No contienen Fructosa, Certificado Halal",
+    image: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/1800_SP_Formula2-MEN_High_A_1300px.png/jcr:content/renditions/cq5dam.web.200.200.png",
+    price: "15.6",
+    sku: "1800"
+  },
+  {
+    title: "Fórmula 2 Mujer - Complejo de Vitaminas y Minerales",
+    description: "Esenciales, Nutrición Interna, No contienen Gluten, No contienen Lactosa, No contienen Soja, No contienen Fructosa, Certificado Halal",
+    image: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/1819_SP_Formula2-WOMEN_High_A_1300px.png/jcr:content/renditions/cq5dam.web.200.200.png",
+    price: "15.6",
+    sku: "1819"
+  }
 ];
 
 export default function Deporte() {
@@ -158,7 +193,7 @@ export default function Deporte() {
   const orderNow = (product: any) => {
     const phoneNumber = "34610101096";
     const message = encodeURIComponent(
-      `Hola, quiero pedir ${product.title} (${product.price} €)`
+      `Hola, quiero pedir ${product.title} `
     );
     Linking.openURL(`https://wa.me/${phoneNumber}?text=${message}`);
   };

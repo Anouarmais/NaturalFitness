@@ -19,7 +19,11 @@ export async function openDatabase() {
         peso REAL,
         grasa REAL,
         masa REAL,
-        imc REAL,
+        agua REAL,
+        edadMetabolica REAL,
+        visceral REAL,
+        cintura REAL,
+        cadera REAL,
         fecha TEXT
       );
     `);

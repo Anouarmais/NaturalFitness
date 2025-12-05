@@ -95,9 +95,9 @@ const products = {
       price: 89.74
     },
     {
-      nombre: "Desayuno Saludable Herbalife Nutrition - Frambuesa y Chocolate Blanco 500 g",
+      nombre: "Bebida Reductora",
       descripcion: "SKU 598Z | Nutrición Interna, Control de Peso, Vegetarianos, Veganos, No contienen Gluten, No contienen Lactosa, Certificado Halal",
-      imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/598Z_Framb_Choc_Paquete_Desayuno.png/_jcr_content/renditions/cq5dam.web.200.200.png",
+      imagen: "https://pub-7d51dc54c0094d719feb2425f890a22c.r2.dev/Alimentacion/chupapanza.jpg",
       price: 81.48
     }
   ],
@@ -125,7 +125,7 @@ export default function Packs() {
   const orderNow = (product: any) => {
     const phoneNumber = "34610101096";
     const message = encodeURIComponent(
-      `Hola, quiero pedir ${product.nombre} (${product.price} €)`
+      `Hola, quiero pedir ${product.nombre} `
     );
     Linking.openURL(`https://wa.me/${phoneNumber}?text=${message}`);
   };

@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components/native";
 import { VictoryAxis, VictoryChart, VictoryLine, VictoryScatter } from "victory-native";
 import { getRegistros } from "../../database/registros";
-
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 const chartHeight = Math.min(screenHeight * 0.4, 300);
 
@@ -13,9 +12,16 @@ interface Registro {
   peso: number | null;
   grasa: number | null;
   masa: number | null;
-  imc: number | null;
+
+  agua: number | null;
+  edadMetabolica: number | null;
+  visceral: number | null;
+  cintura: number | null;
+  cadera: number | null;
+
   fecha: string;
 }
+
 
 const Container = styled(SafeAreaView)`
   flex: 1;
@@ -112,11 +118,13 @@ const fadeAnimation = (anim: Animated.Value) => {
 export default function WeightGraphCard() {
   const [registros, setRegistros] = useState<Registro[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [metric, setMetric] = useState<"peso" | "grasa" | "masa">("peso");
+const [metric, setMetric] = useState<
+  "peso" | "grasa" | "masa" | "agua" | "edadMetabolica" | "visceral" | "cintura" | "cadera"
+>("peso");
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   // 🔹 Cargar los registros una sola vez al montar el componente
-  useEffect(() => {
+ useEffect(() => {
     const cargarDatos = async () => {
       const data = await getRegistros();
       if (data && data.length > 0) {
@@ -127,7 +135,25 @@ export default function WeightGraphCard() {
     };
     cargarDatos();
   }, []);
+/*useEffect(() => {
+    const inicializar = async () => {
+      // Borrar todos los registros al entrar
+      await borrarRegistros();
 
+      // Cargar registros (ahora vacíos)
+      const data = await getRegistros();
+      if (data && data.length > 0) {
+        const reversed = data.reverse();
+        setRegistros(reversed);
+        setSelectedIndex(reversed.length - 1);
+      } else {
+        setRegistros([]);
+        setSelectedIndex(0);
+      }
+    };
+
+    inicializar();
+  }, []);*/
   const dataPoints = registros.map((r, i) => ({
     x: i,
     y: r[metric] ?? 0,
@@ -142,17 +168,30 @@ export default function WeightGraphCard() {
   const maxY = registros.length > 0 ? Math.max(...registros.map(r => r[metric] ?? 0)) + 0.5 : 100;
 
   const selectedRegistro = selectedIndex !== null ? registros[selectedIndex] : null;
-  const currentValue =
-    metric === "peso" ? selectedRegistro?.peso :
-    metric === "grasa" ? selectedRegistro?.grasa :
-    selectedRegistro?.masa;
+const currentValue =
+  metric === "peso" ? selectedRegistro?.peso :
+  metric === "grasa" ? selectedRegistro?.grasa :
+  metric === "masa" ? selectedRegistro?.masa :
+  metric === "agua" ? selectedRegistro?.agua :
+  metric === "edadMetabolica" ? selectedRegistro?.edadMetabolica :
+  metric === "visceral" ? selectedRegistro?.visceral :
+  metric === "cintura" ? selectedRegistro?.cintura :
+  selectedRegistro?.cadera; // ✅ Aquí estaba el fallo
 
-  const unit = metric === "peso" ? "Kg" : metric === "grasa" ? "%" : "Kg";
 
-  const handleMetricChange = (m: "peso" | "grasa" | "masa") => {
-    setMetric(m);
-    fadeAnimation(fadeAnim);
-  };
+const unit =
+  metric === "peso" || metric === "masa" ? "Kg" :
+  metric === "grasa" || metric === "agua" ? "%" :
+  metric === "edadMetabolica" ? "Años" :
+  metric === "visceral" ? "Nivel" :
+  "cm";
+
+const handleMetricChange = (
+  m: "peso" | "grasa" | "masa" | "agua" | "edadMetabolica" | "visceral" | "cintura" | "cadera"
+) => {
+  setMetric(m);
+  fadeAnimation(fadeAnim);
+};
 
   return (
     <Container>
@@ -248,6 +287,37 @@ export default function WeightGraphCard() {
               <StatUnit>kg</StatUnit>
               <StatLabel selected={metric === "masa"}>M. muscular</StatLabel>
             </StatBox>
+            <StatBox selected={metric === "agua"} onPress={() => handleMetricChange("agua")}>
+  <StatValue selected={metric === "agua"}>{selectedRegistro.agua?.toFixed(1) ?? "-"}</StatValue>
+  <StatUnit>%</StatUnit>
+  <StatLabel selected={metric === "agua"}>Agua</StatLabel>
+</StatBox>
+
+<StatBox selected={metric === "edadMetabolica"} onPress={() => handleMetricChange("edadMetabolica")}>
+  <StatValue selected={metric === "edadMetabolica"}>{selectedRegistro.edadMetabolica ?? "-"}</StatValue>
+  <StatUnit>Años</StatUnit>
+  <StatLabel selected={metric === "edadMetabolica"}>Edad metabólica</StatLabel>
+</StatBox>
+
+<StatBox selected={metric === "visceral"} onPress={() => handleMetricChange("visceral")}>
+  <StatValue selected={metric === "visceral"}>{selectedRegistro.visceral ?? "-"}</StatValue>
+  <StatUnit>Nivel</StatUnit>
+  <StatLabel selected={metric === "visceral"}>Grasa visceral</StatLabel>
+</StatBox>
+
+<StatBox selected={metric === "cintura"} onPress={() => handleMetricChange("cintura")}>
+  <StatValue selected={metric === "cintura"}>{selectedRegistro.cintura ?? "-"}</StatValue>
+  <StatUnit>cm</StatUnit>
+  <StatLabel selected={metric === "cintura"}>Cintura</StatLabel>
+</StatBox>
+
+<StatBox selected={metric === "cadera"} onPress={() => handleMetricChange("cadera")}>
+  <StatValue selected={metric === "cadera"}>{selectedRegistro.cadera ?? "-"}</StatValue>
+  <StatUnit>cm</StatUnit>
+  <StatLabel selected={metric === "cadera"}>Cadera</StatLabel>
+</StatBox>
+
+
           </StatsContainer>
         )}
       </ScrollView>

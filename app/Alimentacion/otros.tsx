@@ -78,77 +78,37 @@ const WhatsAppText = styled.Text`
   font-size: 14px;
 `;
 const products = [
-    {
-    nombre: "Sérum Minimizador de Líneas 50 ml",
-    sku: "0829",
-    descripcion: "Nutrición Externa, Herbalife SKIN",
-    imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/0829_SP_SKINLineMinimisingSerum_50ML_1300px.png/jcr:content/renditions/cq5dam.web.200.200.png",
-    precio: 43.68,
-    vp: 43.35
+  {
+    "nombre": "Immune Booster Frutos silvestres",
+    "sku": "233K",
+    "descripcion": "Nutrición Interna, Nutrición Objetiva",
+    "imagen": "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2022/06-Jun/233K_SP_PO_ImmuneBooster_Square_1300px.jpg/jcr:content/renditions/cq5dam.web.200.200.jpeg",
+    "precio": 26.09,
+    "vp": 18.9
   },
   {
-    nombre: "Collagen Skin Booster - No se incluye cuchara (usar referencia 2B08) Fresa y limón 171 g",
-    sku: "076K",
-    descripcion: "Nutrición Externa, Herbalife SKIN",
-    imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/076K_SP.png/jcr:content/renditions/cq5dam.web.200.200.png",
-    precio: 43.08,
-    vp: 37.1
+    "nombre": "Night Mode Manzanilla y Melocotón 180 g",
+    "sku": "282K",
+    "descripcion": "Nutrición Interna, Nutrición Objetiva",
+    "imagen": "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2023/09-Sep/282k-sp-po-night-mode-square-800px.jpg/jcr:content/renditions/cq5dam.web.200.200.jpeg",
+    "precio": 32.77,
+    "vp": 31.25
   },
   {
-    nombre: "Crema Tensora Ultimate de HL/Skin 50 ml",
-    sku: "513K",
-    descripcion: "Nutrición Externa",
-    imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2025/09-sep/513k-hl-skin-ultimate-tension-cream-image-es.png/jcr:content/renditions/cq5dam.web.200.200.png",
-    precio: 34.98,
-    vp: 35.2
+    "nombre": "Microbiotic Max - 20 sobres Vainilla",
+    "sku": "173K",
+    "descripcion": "Nutrición Interna, Nutrición Objetiva, No contienen Gluten, No contienen Fructosa",
+    "imagen": "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/Micro_1300px.png/jcr:content/renditions/cq5dam.web.200.200.png",
+    "precio": 32.55,
+    "vp": 27.1
   },
   {
-    nombre: "Crema Hidratante de Día 50 ml",
-    sku: "0830",
-    descripcion: "Nutrición Externa, Herbalife SKIN",
-    imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/0830_SP_SKINDailyGlowMoisturiser_50ML_1300px.png/jcr:content/renditions/cq5dam.web.200.200.png",
-    precio: 32.89,
-    vp: 32.65
-  },
-  {
-    nombre: "Sérum con 10 % de Niacinamida de HL/Skin 30 ml",
-    sku: "508K",
-    descripcion: "Nutrición Externa",
-    imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2025/09-sep/508k-hl-skin-niacinamide-serum-image-es.png/jcr:content/renditions/cq5dam.web.200.200.png",
-    precio: 31.48,
-    vp: 31.7
-  },
-  {
-    nombre: "Gel de Ojos Reafirmante 15 ml",
-    sku: "0770",
-    descripcion: "Nutrición Externa, Herbalife SKIN",
-    imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/0770_SP_SKINFirmingEyeGel_1300px.png/jcr:content/renditions/cq5dam.web.200.200.png",
-    precio: 26.53,
-    vp: 26.35
-  },
-  {
-    nombre: "Gel Limpiador Suavizante con Aloe 150 ml",
-    sku: "0765",
-    descripcion: "Nutrición Externa, Herbalife SKIN",
-    imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/0765_SP_SKINSoothingAloeCleanser_1300px.png/jcr:content/renditions/cq5dam.web.200.200.png",
-    precio: 16.88,
-    vp: 16.75
-  },
-  {
-    nombre: "Champú Fortalecedor 250 ml",
-    sku: "2564",
-    descripcion: "Nutrición Externa, Nueva Línea Herbal Aloe",
-    imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/2564_SP_AloeStrengtheningShampoo_High_1300px.png/jcr:content/renditions/cq5dam.web.200.200.png",
-    precio: 9.75,
-    vp: 8.3
-  },
-  {
-    nombre: "Coctelera de Neón - Verde Oscuro - 600 ml",
-    sku: "2N52",
-    descripcion: "Medir, Mezclar & Servir, Promote",
-    imagen: "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2025/04-Apr/2N52.jpg/jcr:content/renditions/cq5dam.web.200.200.jpeg",
-    precio: 11.4,
-    vp: 1.45
+    "nombre": "Beta heart® (No incluye cuchara, utilizar la Ref. 1B42) Vainilla 229 g",
+    "sku": "0267",
+    "descripcion": "Nutrición Interna, Nutrición Objetiva, Vegetarianos, No contienen Soja, No contienen Fructosa, Certificado Halal",
+    "imagen": "https://assets.herbalifenutrition.com/content/dam/regional/emea/es_es/consumable_content/product-catalog-assets/images/2021/05-May/0267_BH_1300x1300px.png/jcr:content/renditions/cq5dam.web.200.200.png",
+    "precio": 28.85,
+    "vp": 25.95
   }
 ];
 
@@ -160,7 +120,7 @@ export default function otros() {
   const orderNow = (product: any) => {
     const phoneNumber = "34610101096";
     const message = encodeURIComponent(
-      `Hola, quiero pedir ${product.title} (${product.price} €)`
+      `Hola, quiero pedir ${product.title})`
     );
     Linking.openURL(`https://wa.me/${phoneNumber}?text=${message}`);
   };

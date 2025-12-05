@@ -57,19 +57,19 @@ export default function Index() {
       />
         <MuscleCard
         title="Biceps"
-        image={require("../assets/images/homro.png")}
+        image={require("../assets/images/biceps.png")}
         exercisesCount={9}
         extraInfo="Estabilidad y movilidad"
       />
       <MuscleCard
         title="Gluteos"
-        image={require("../assets/images/pierna.png")}
+        image={require("../assets/images/gluteo.png")}
         exercisesCount={8}
         extraInfo="Fuerza y potencia"
       />
       <MuscleCard
         title="Triceps"
-        image={require("../assets/images/homro.png")}
+        image={require("../assets/images/triceps.png")}
         exercisesCount={7}
         extraInfo="Fuerza y potencia"
       />

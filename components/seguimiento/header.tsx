@@ -1,3 +1,4 @@
+// components/SeguimientoHeader.js
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
@@ -86,10 +87,15 @@ export default function SeguimientoHeader() {
   const router = useRouter();
   const [visible, setVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(height)).current;
+
   const [peso, setPeso] = useState("");
   const [grasa, setGrasa] = useState("");
   const [masa, setMasa] = useState("");
-  const [imc, setImc] = useState("");
+  const [agua, setAgua] = useState("");
+  const [edadMetabolica, setEdadMetabolica] = useState("");
+  const [visceral, setVisceral] = useState("");
+  const [cintura, setCintura] = useState("");
+  const [cadera, setCadera] = useState("");
 
   const openForm = () => {
     setVisible(true);   
@@ -138,20 +144,25 @@ export default function SeguimientoHeader() {
   }, []);
 
   const handleSave = async () => {
+    console.log("📥 Guardando registro con valores:", {
+      peso, grasa, masa, agua, edadMetabolica, visceral, cintura, cadera
+    });
+
     await addRegistro(
       Number(peso),
       grasa ? Number(grasa) : null,
       masa ? Number(masa) : null,
-      imc ? Number(imc) : null
+      agua ? Number(agua) : null,
+      edadMetabolica ? Number(edadMetabolica) : null,
+      visceral ? Number(visceral) : null,
+      cintura ? Number(cintura) : null,
+      cadera ? Number(cadera) : null
     );
 
-    console.log("💾 Registro guardado en SQLite");
-
     closeForm();
-    setPeso("");
-    setGrasa("");
-    setMasa("");
-    setImc("");
+    setPeso(""); setGrasa(""); setMasa("");
+    setAgua(""); setEdadMetabolica(""); setVisceral("");
+    setCintura(""); setCadera("");
 
     setTimeout(() => {
       router.replace("/seguimiento");
@@ -176,58 +187,24 @@ export default function SeguimientoHeader() {
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
               >
                 <FormContainer style={{ transform: [{ translateY: slideAnim }] }}>
-                  <Text
-                    style={{
-                      fontSize: 22,
-                      fontWeight: "bold",
-                      marginBottom: 20,
-                      textAlign: "center",
-                    }}
-                  >
+                  <Text style={{ fontSize: 22, fontWeight: "bold", marginBottom: 20, textAlign: "center" }}>
                     Añadir Registro
                   </Text>
 
-<Input
-  placeholder="Peso (kg)"
-  placeholderTextColor="#999"
-  keyboardType="numeric"
-  value={peso}
-  onChangeText={setPeso}
-/>
-
-<Input
-  placeholder="% Grasa corporal"
-  placeholderTextColor="#999"
-  keyboardType="numeric"
-  value={grasa}
-  onChangeText={setGrasa}
-/>
-
-<Input
-  placeholder="Masa muscular (kg)"
-  placeholderTextColor="#999"
-  keyboardType="numeric"
-  value={masa}
-  onChangeText={setMasa}
-/>
-
-<Input
-  placeholder="IMC"
-  placeholderTextColor="#999"
-  keyboardType="numeric"
-  value={imc}
-  onChangeText={setImc}
-/>
-
+                  <Input placeholder="Peso (kg)" placeholderTextColor="#999" keyboardType="numeric" value={peso} onChangeText={setPeso} />
+                  <Input placeholder="% Grasa corporal" placeholderTextColor="#999" keyboardType="numeric" value={grasa} onChangeText={setGrasa} />
+                  <Input placeholder="Masa muscular (kg)" placeholderTextColor="#999" keyboardType="numeric" value={masa} onChangeText={setMasa} />
+                  <Input placeholder="% Agua corporal" placeholderTextColor="#999" keyboardType="numeric" value={agua} onChangeText={setAgua} />
+                  <Input placeholder="Edad metabólica (años)" placeholderTextColor="#999" keyboardType="numeric" value={edadMetabolica} onChangeText={setEdadMetabolica} />
+                  <Input placeholder="Grasa visceral (nivel)" placeholderTextColor="#999" keyboardType="numeric" value={visceral} onChangeText={setVisceral} />
+                  <Input placeholder="Cintura (cm)" placeholderTextColor="#999" keyboardType="numeric" value={cintura} onChangeText={setCintura} />
+                  <Input placeholder="Cadera (cm)" placeholderTextColor="#999" keyboardType="numeric" value={cadera} onChangeText={setCadera} />
 
                   <SaveButton onPress={handleSave}>
                     <SaveText>Guardar</SaveText>
                   </SaveButton>
 
-                  <TouchableOpacity
-                    onPress={closeForm}
-                    style={{ marginTop: 20, alignItems: "center" }}
-                  >
+                  <TouchableOpacity onPress={closeForm} style={{ marginTop: 20, alignItems: "center" }}>
                     <Text style={{ color: "#888" }}>Cancelar</Text>
                   </TouchableOpacity>
                 </FormContainer>

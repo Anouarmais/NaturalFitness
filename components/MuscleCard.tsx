@@ -12,7 +12,8 @@ interface MuscleCardProps {
 
 const Card = styled.TouchableOpacity`
   flex-direction: row;
-  background-color: #fff;
+  background-color: #000000ff;
+
   border-radius: 18px;
   padding: 16px;
   margin-bottom: 18px;
@@ -32,13 +33,13 @@ const Info = styled.View`
 const Title = styled.Text`
   font-family: "Poppins_700Bold";
   font-size: 22px;
-  color: #000;
+  color: #fefefeff;
 `;
 
 const SubText = styled.Text`
   font-family: "Poppins_400Regular";
   font-size: 15px;
-  color: #777;
+  color: #ffffffff;
   margin-top: 4px;
 `;
 
@@ -79,7 +80,8 @@ export default function MuscleCard({
         {extraInfo && <Extra>{extraInfo}</Extra>}
       </Info>
 
-      <MuscleImage source={image} />
+      <MuscleImage source={image} resizeMode="contain" />
+
     </Card>
   );
 }
