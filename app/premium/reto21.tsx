@@ -1,19 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
-import { Video } from "expo-av";
 import { useRouter } from "expo-router";
-import React, { useCallback, useRef } from "react";
-import {
-  Dimensions,
-  Linking,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { VideoView, useVideoPlayer } from "expo-video";
+import React, { useCallback } from "react";
+import { Dimensions, Linking, Text, TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
 
 const { width } = Dimensions.get("window");
-const mainColor = "#FFD700"; // 🟡 Color principal
+const mainColor = "#FFD700";
 
 // 🔹 Contenedor general
 const Container = styled.ScrollView`
@@ -22,11 +16,10 @@ const Container = styled.ScrollView`
   padding: 20px;
 `;
 
-// 🔹 Encabezado con título
 const Header = styled.View`
   width: 100%;
   margin-top: 35px;
-  margin-bottom: 25px; /* espacio debajo de la ralla */
+  margin-bottom: 25px;
 `;
 
 const HeaderTop = styled.View`
@@ -38,7 +31,7 @@ const TitleHeader = styled.Text`
   font-size: 22px;
   font-family: "Poppins_700Bold";
   color: #222;
-  margin-left: 10px; /* espacio entre flecha y título */
+  margin-left: 10px;
 `;
 
 const Underline = styled.View`
@@ -55,7 +48,6 @@ const Highlight = styled.Text`
   font-weight: bold;
 `;
 
-// 🔹 Botón fijo de WhatsApp
 const FloatingButtonContainer = styled.View`
   position: absolute;
   bottom: 20px;
@@ -85,155 +77,102 @@ const ButtonText = styled.Text`
 
 export default function Reto21Dias() {
   const router = useRouter();
-  const videoRef = useRef<Video>(null);
-  const videoRef1 = useRef<Video>(null);
-  // 🔥 Reproduce al entrar — Pausa al salir
+
+  // 🔹 Creamos los players con useVideoPlayer
+const player1 = useVideoPlayer(require("../../assets/images/wedopaco.mp4"));
+const player2 = useVideoPlayer(require("../../assets/images/wedoantes.mp4"));
+
+  // 🔹 Pausar/reproducir al entrar o salir de pantalla
   useFocusEffect(
     useCallback(() => {
-      if (videoRef.current) {
-        videoRef.current.playAsync();
-      }
-      return () => {
-        if (videoRef.current) {
-          videoRef.current.pauseAsync();
-        }
-      };
-    }, [])
+      player1.play();
+      return () => player1.pause();
+    }, [player1])
   );
+
   useFocusEffect(
     useCallback(() => {
-      if (videoRef1.current) {
-        videoRef1.current.playAsync();
-      }
-      return () => {
-        if (videoRef1.current) {
-          videoRef1.current.pauseAsync();
-        }
-      };
-    }, [])
+      player2.play();
+      return () => player2.pause();
+    }, [player2])
   );
+
   const openWhatsApp = () => {
-    const phoneNumber = "34610101096"; 
+    const phoneNumber = "34610101096";
     const message = encodeURIComponent("¡Hola! Quiero empezar el Reto de 21 Días 💪");
     Linking.openURL(`https://wa.me/${phoneNumber}?text=${message}`);
   };
 
- return (
-  <View style={{ flex: 1 }}>
-    <Container contentContainerStyle={{ paddingBottom: 120 }}>
-      {/* HEADER */}
-      <Header>
-        <HeaderTop>
-          <TouchableOpacity onPress={() => router.push("/premium" as any)}>
-            <Ionicons name="arrow-back" size={26} color="#000" />
-          </TouchableOpacity>
-          <TitleHeader>Reto 21 dias </TitleHeader>
-        </HeaderTop>
-        <Underline />
-      </Header>
+  return (
+    <View style={{ flex: 1 }}>
+      <Container contentContainerStyle={{ paddingBottom: 120 }}>
+        {/* HEADER */}
+        <Header>
+          <HeaderTop>
+            <TouchableOpacity onPress={() => router.push("/premium" as any)}>
+              <Ionicons name="arrow-back" size={26} color="#000" />
+            </TouchableOpacity>
+            <TitleHeader>Reto 21 Días</TitleHeader>
+          </HeaderTop>
+          <Underline />
+        </Header>
 
-      {/* 🚨 PRIMER VIDEO 🚨 */}
-      <View
-        style={{
-          width: "100%",
-          height: 220,
-          borderRadius: 12,
-          overflow: "hidden",
-          marginBottom: 20,
-        }}
-      >
-<Video
-  ref={videoRef}
-  source={require("../../assets/images/wedopaco.mp4")}
-  style={{ width: "100%", height: "100%" }}
-  resizeMode="cover"
-  isLooping={false} // No se repite
-  useNativeControls={true} // Para que el usuario pueda darle play después
-  shouldPlay={true} // Se reproduce automáticamente la primera vez
-onPlaybackStatusUpdate={(status) => {
-  const s = status as import('expo-av').AVPlaybackStatus;
-  if (s.isLoaded && s.didJustFinish) {
-    videoRef.current?.pauseAsync();
-  }
-}}
+        {/* 🚨 PRIMER VIDEO */}
+        <View style={{ width: "100%", height: 220, borderRadius: 12, overflow: "hidden", marginBottom: 20 }}>
+          <VideoView
+            player={player1}
+            style={{ width: "100%", height: "100%" }}
+            contentFit="cover"
+            
+            allowsFullscreen
+            
+          />
+        </View>
 
-/>
+        {/* TEXTO 1 */}
+        <Text style={{ fontSize: 16, lineHeight: 26, textAlign: "justify", color: "#333" }}>
+          ¿Estás listo para tu cambio? 🚀{"\n\n"}
+          El <Highlight>Reto de 21 Días</Highlight> es la experiencia completa de transformación que necesitas para lograr resultados sostenibles y transformadores.
+          En estos 21 días recibirás:
+        </Text>
 
-      </View>
+        {/* 🚨 SEGUNDO VIDEO */}
+        <View style={{ width: "100%", height: 400, borderRadius: 12, overflow: "hidden", marginVertical: 20 }}>
+          <VideoView
+            player={player2}
+            style={{ width: "100%", height: "100%" }}
+            contentFit="contain"
+            allowsFullscreen
+          />
+        </View>
 
-      {/* TEXTO 1 */}
-      <Text
-        style={{
-          fontSize: 16,
-          lineHeight: 26,
-          textAlign: "justify",
-          color: "#333",
-        }}
-      >
-        ¿Estás listo para tu cambio? 🚀{"\n\n"}
-        El <Highlight>Reto de 21 Días</Highlight> es la experiencia completa de transformación 
-        que necesitas para lograr resultados sostenibles y transformadores.
-        En estos 21 días recibirás:
-      </Text>
+        {/* TEXTO 2 */}
+        <Text style={{ fontSize: 16, lineHeight: 26, textAlign: "justify", color: "#333" }}>
+          {"\n\n"}
+          ✅ <Highlight>Asesoramiento personalizado</Highlight> para un plan adaptado a ti.{"\n"}
+          ✅ <Highlight>Plan de alimentación adaptado</Highlight> a tus necesidades.{"\n"}
+          ✅ <Highlight>Suplementación incluida</Highlight> para optimizar tus resultados.{"\n"}
+          ✅ <Highlight>Entrenamiento guiado paso a paso</Highlight> para asegurar tu progreso.{"\n"}
+          ✅ <Highlight>Acceso a App exclusiva</Highlight> con todo lo que necesitas.{"\n"}
+          ✅ <Highlight>Grupo privado - comunidad internacional</Highlight> de apoyo.{"\n"}
+          ✅ <Highlight>Recetas fáciles y rápidas</Highlight> para simplificar tu día a día.{"\n"}
+          ✅ <Highlight>Seguimiento diario y semanal</Highlight> (peso, fotos, medidas).{"\n"}
+          ✅ <Highlight>Reto de hábitos completos</Highlight> (alimentación, descanso, hidratación).{"\n"}
+          ✅ <Highlight>Sesión en vivo de formación</Highlight> para resolver todas tus dudas.{"\n"}
+          ✅ <Highlight>Premio de $500 al ganador</Highlight> del reto.{"\n\n"}
+          🌟 <Highlight>Resultados sostenibles y transformadores:</Highlight>{"\n"}
+          No solo cambiarás tu cuerpo, transformarás tu estilo de vida por completo. Crearás hábitos sólidos, ganarás confianza y verás cambios reales que perduran.{"\n\n"}
+          <Highlight>¿Estás listo para tu cambio?</Highlight>{"\n"}
+          Escríbeme y empieza hoy tu transformación.
+        </Text>
+      </Container>
 
-      {/* 🚨 SEGUNDO VIDEO AQUÍ COMO PEDISTE 🚨 */}
-      <View
-        style={{
-          width: "100%",
-          height: 400, // porque dijiste que es vertical
-          borderRadius: 12,
-          overflow: "hidden",
-          marginVertical: 20,
-        }}
-      >
-        <Video
-          ref={videoRef1}
-          source={require("../../assets/images/wedoantes.mp4")}
-          style={{ width: "100%", height: "100%" }}
-          resizeMode="contain"
-          isLooping
-          useNativeControls={false}
-        />
-      </View>
-
-      {/* TEXTO 2 (continuación EXACTA del tuyo) */}
-      <Text
-        style={{
-          fontSize: 16,
-          lineHeight: 26,
-          textAlign: "justify",
-          color: "#333",
-        }}
-      >
-        {"\n"}{"\n"}
-        ✅ <Highlight>Asesoramiento personalizado</Highlight> para un plan adaptado a ti.{"\n"}
-        ✅ <Highlight>Plan de alimentación adaptado</Highlight> a tus necesidades.{"\n"}
-        ✅ <Highlight>Suplementación incluida</Highlight> para optimizar tus resultados.{"\n"}
-        ✅ <Highlight>Entrenamiento guiado paso a paso</Highlight> para asegurar tu progreso.{"\n"}
-        ✅ <Highlight>Acceso a App exclusiva</Highlight> con todo lo que necesitas.{"\n"}
-        ✅ <Highlight>Grupo privado - comunidad internacional</Highlight> de apoyo.{"\n"}
-        ✅ <Highlight>Recetas fáciles y rápidas</Highlight> para simplificar tu día a día.{"\n"}
-        ✅ <Highlight>Seguimiento diario y semanal</Highlight> (peso, fotos, medidas).{"\n"}
-        ✅ <Highlight>Reto de hábitos completos</Highlight> (alimentación, descanso, hidratación).{"\n"}
-        ✅ <Highlight>Sesión en vivo de formación</Highlight> para resolver todas tus dudas.{"\n"}
-        ✅ <Highlight>Premio de $500 al ganador</Highlight> del reto.{"\n\n"}
-
-        🌟 <Highlight>Resultados sostenibles y transformadores:</Highlight>{"\n"}
-        No solo cambiarás tu cuerpo, transformarás tu estilo de vida por completo.
-        Crearás hábitos sólidos, ganarás confianza y verás cambios reales que perduran.{"\n\n"}
-
-        <Highlight>¿Estás listo para tu cambio?</Highlight>{"\n"}
-        Escríbeme y empieza hoy tu transformación.
-      </Text>
-    </Container>
-
-    {/* Botón flotante */}
-    <FloatingButtonContainer>
-      <WhatsAppButton onPress={openWhatsApp}>
-        <ButtonText>Empieza hoy mismo por WhatsApp 💬</ButtonText>
-      </WhatsAppButton>
-    </FloatingButtonContainer>
-  </View>
-);
-
+      {/* Botón flotante */}
+      <FloatingButtonContainer>
+        <WhatsAppButton onPress={openWhatsApp}>
+          <ButtonText>Empieza hoy mismo por WhatsApp 💬</ButtonText>
+        </WhatsAppButton>
+      </FloatingButtonContainer>
+    </View>
+  );
 }

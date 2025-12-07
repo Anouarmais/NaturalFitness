@@ -1,11 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useFocusEffect } from '@react-navigation/native';
-import { Video } from "expo-av"; // ✅ Importar Video
+import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
-import React, { useCallback, useRef } from "react";
+import { useVideoPlayer, VideoView } from "expo-video";
+import React, { useCallback, useEffect } from "react";
 import { Image, Linking, Text, TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
-const mainColor = "#FFD700"; // 🟡 Color principal
+
+const mainColor = "#FFD700";
 
 // 🔹 Contenedor general
 const Container = styled.ScrollView`
@@ -47,7 +48,6 @@ const Highlight = styled.Text`
   font-weight: bold;
 `;
 
-// 🔹 Botón fijo de WhatsApp
 const FloatingButtonContainer = styled.View`
   position: absolute;
   bottom: 20px;
@@ -77,26 +77,47 @@ const ButtonText = styled.Text`
 
 export default function Maderoterapia() {
   const router = useRouter();
- const videoRef = useRef<Video>(null);
 
-useFocusEffect(
-  useCallback(() => {
-    // Se ejecuta al entrar en la pantalla
-    if (videoRef.current) {
-      videoRef.current.playAsync();
-    }
+  // Crear player
+  const player = useVideoPlayer(require("../../assets/images/shortmadero.mp4"));
+
+  // Loop manual
+  useEffect(() => {
+    const sub = player.addListener("ended", () => {
+      try {
+        player.seek(0);
+        player.play();
+      } catch (err) {
+        console.log("⚠ Error al reiniciar el loop:", err);
+      }
+    });
 
     return () => {
-      // Se ejecuta al salir de la pantalla
-      if (videoRef.current) {
-        videoRef.current.pauseAsync();
-      }
+      sub.remove();
     };
-  }, [])
-);
-  
+  }, [player]);
+
+  // Play / pause cuando entras y sales
+  useFocusEffect(
+    useCallback(() => {
+      try {
+        player.play();
+      } catch (error) {
+        console.log("⚠ Error al reproducir:", error);
+      }
+
+      return () => {
+        try {
+          player.pause();
+        } catch (error) {
+          console.log("⚠ Error al pausar:", error);
+        }
+      };
+    }, [player])
+  );
+
   const openWhatsApp = () => {
-    const phoneNumber = "34610101096"; // Número de Jessica
+    const phoneNumber = "34610101096";
     const message = encodeURIComponent(
       "¡Hola! Quiero empezar la Maderoterapia 💆‍♀️"
     );
@@ -115,7 +136,6 @@ useFocusEffect(
           </HeaderTop>
           <Underline />
         </Header>
-
 
         <Image
           source={require("../../assets/images/maderajessica.jpg")}
@@ -141,40 +161,34 @@ useFocusEffect(
           moldear y relajar tu cuerpo utilizando herramientas de madera
           especializadas. 🌿{"\n\n"}
           Con sesiones personalizadas recibirás:{"\n\n"}
-          ✅ <Highlight>Reducción de celulitis</Highlight> y tonificación de
-          zonas específicas.{"\n"}
-          ✅ <Highlight>Estimulación de la circulación</Highlight> para un
-          efecto revitalizante.{"\n"}
-          ✅ <Highlight>Relajación profunda</Highlight> que ayuda a disminuir
-          tensiones y estrés.{"\n\n"}
+          ✅ <Highlight>Reducción de celulitis</Highlight> y tonificación.{"\n"}
+          ✅ <Highlight>Estimulación de la circulación</Highlight>.{"\n"}
+          ✅ <Highlight>Relajación profunda</Highlight>.{"\n\n"}
         </Text>
 
         {/* Video en bucle */}
-<View
-  style={{
-    width: "100%",
-    height: 400,
-    borderRadius: 12,
-    overflow: "hidden",
-    marginBottom: 20,
-  }}
->
-<Video
-  ref={videoRef}
-  source={require("../../assets/images/shortmadero.mp4")}
-  style={{
-    width: "100%",
-    height: "100%",
-  }}
-  isLooping
-  useNativeControls={false}
-/>
-
-</View>
-
-
-
-
+        <View
+          style={{
+            width: "100%",
+            height: 400,
+            borderRadius: 12,
+            overflow: "hidden",
+            marginBottom: 20,
+          }}
+        >
+          <VideoView
+            player={player}
+            style={{ width: "100%", height: "100%" }}
+            nativeControls={false}
+            resizeMode="cover"
+            muted={false}
+            audioMode={{
+              allowsRecordingIOS: false,
+              staysActiveInBackground: false,
+              playsInSilentModeIOS: true,
+            }}
+          />
+        </View>
 
         <Text
           style={{
@@ -185,14 +199,12 @@ useFocusEffect(
             marginBottom: 20,
           }}
         >
-          Cada sesión es completamente personalizada para adaptarse a tus
-          necesidades y objetivos. 🔥{"\n\n"}
-          No importa si quieres relajarte, moldear tu figura o mejorar la
-          circulación: la <Highlight>Maderoterapia</Highlight> es ideal para ti.
+          Cada sesión es completamente personalizada según tus objetivos.
+          Relajarte, moldear tu figura o activar la circulación,
+          la <Highlight>Maderoterapia</Highlight> es ideal para ti.
         </Text>
       </Container>
 
-      {/* Botón flotante */}
       <FloatingButtonContainer>
         <WhatsAppButton onPress={openWhatsApp}>
           <ButtonText>Contacta con Jessica 💬</ButtonText>

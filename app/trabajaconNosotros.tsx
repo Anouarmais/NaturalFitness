@@ -1,8 +1,8 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { Video } from "expo-av";
 import { useRouter } from "expo-router";
-import React, { useCallback, useRef } from "react";
-import { Linking, Text, TouchableOpacity, View } from "react-native";
+import { VideoView, useVideoPlayer } from "expo-video";
+import React, { useCallback } from "react";
+import { Linking, Text, View } from "react-native";
 import styled from "styled-components/native";
 
 const mainColor = "#FFD700";
@@ -14,11 +14,10 @@ const Container = styled.ScrollView`
   padding: 20px;
 `;
 
-// 🔹 Encabezado con título
 const Header = styled.View`
   width: 100%;
   margin-top: 35px;
-  margin-bottom: 25px; /* espacio debajo de la ralla */
+  margin-bottom: 25px;
 `;
 
 const HeaderTop = styled.View`
@@ -30,7 +29,7 @@ const TitleHeader = styled.Text`
   font-size: 22px;
   font-family: "Poppins_700Bold";
   color: #222;
-  margin-left: 10px; /* espacio entre flecha y título */
+  margin-left: 10px;
 `;
 
 const Underline = styled.View`
@@ -39,7 +38,7 @@ const Underline = styled.View`
   background-color: ${mainColor};
   border-radius: 2px;
   margin-top: 6px;
-  margin-left: 36px; /* alineación con el texto */
+  margin-left: 36px;
 `;
 
 const Highlight = styled.Text`
@@ -47,7 +46,6 @@ const Highlight = styled.Text`
   font-weight: bold;
 `;
 
-// 🔹 Botón fijo de WhatsApp
 const FloatingButtonContainer = styled.View`
   position: absolute;
   bottom: 20px;
@@ -57,7 +55,7 @@ const FloatingButtonContainer = styled.View`
   z-index: 10;
 `;
 
-const WhatsAppButton = styled(TouchableOpacity)`
+const WhatsAppButton = styled.TouchableOpacity`
   background-color: #25d366;
   padding: 14px 20px;
   border-radius: 30px;
@@ -77,27 +75,42 @@ const ButtonText = styled.Text`
 
 export default function TrabajaconNosotros() {
   const router = useRouter();
-  const videoRef = useRef<Video>(null);
+
+  // 🔹 Player
+  const player = useVideoPlayer(require("../assets/images/trabajacon nosotros.mp4"));
 
   const openWhatsApp = () => {
     const phoneNumber = "34610101096";
-    const message = encodeURIComponent("¡Hola! Quiero más información sobre Trabajar con Paco Montes 💪");
+    const message = encodeURIComponent(
+      "¡Hola! Quiero más información sobre Trabajar con Paco Montes 💪"
+    );
     Linking.openURL(`https://wa.me/${phoneNumber}?text=${message}`);
   };
 
-  // Reproduce el video automáticamente solo la primera vez
-  useFocusEffect(
-    useCallback(() => {
-      if (videoRef.current) {
-        videoRef.current.playAsync();
+  // 🔹 Play / Pause protegido
+// 🔹 Play / Pause protegido
+useFocusEffect(
+  useCallback(() => {
+    if (player && typeof player.play === "function") {
+      try {
+        player.play();
+      } catch (error) {
+        console.log("⚠ Error al reproducir video:", error);
       }
-      return () => {
-        if (videoRef.current) {
-          videoRef.current.pauseAsync();
+    }
+
+    return () => {
+      if (player && typeof player.pause === "function") {
+        try {
+          player.pause();
+        } catch (error) {
+          console.log("⚠ Error al pausar video:", error);
         }
-      };
-    }, [])
-  );
+      }
+    };
+  }, [player])
+);
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -109,7 +122,7 @@ export default function TrabajaconNosotros() {
           <Underline />
         </Header>
 
-        {/* Video explicativo */}
+        {/* Video */}
         <View
           style={{
             width: "100%",
@@ -119,13 +132,17 @@ export default function TrabajaconNosotros() {
             marginBottom: 20,
           }}
         >
-          <Video
-            ref={videoRef}
-            source={require("../assets/images/trabajacon nosotros.mp4")}
+          <VideoView
+            player={player}
             style={{ width: "100%", height: "100%" }}
             resizeMode="cover"
-            useNativeControls={true}
-            isLooping={false}
+            nativeControls
+            muted={false}
+            audioMode={{
+              allowsRecordingIOS: false,
+              staysActiveInBackground: false,
+              playsInSilentModeIOS: true,
+            }}
           />
         </View>
 
@@ -138,9 +155,13 @@ export default function TrabajaconNosotros() {
             color: "#333",
           }}
         >
-          💰 Con Paco Montes puedes aprender a generar <Highlight>ingresos extra</Highlight> vendiendo productos de nutrición y suplementos.
-          {"\n\n"}Aprenderás a vender de manera profesional, formar tu propio equipo y recibir comisiones por sus ventas. 
-          {"\n\n"}Es un método flexible donde tus ganancias dependen de tus ventas y esfuerzo. Con la guía de Paco, podrás iniciar tu negocio de forma independiente y desde cualquier lugar.
+          💰 Con Paco Montes puedes aprender a generar{" "}
+          <Highlight>ingresos extra</Highlight> vendiendo productos de nutrición y suplementos.
+          {"\n\n"}Aprenderás a vender de manera profesional, formar tu propio
+          equipo y recibir comisiones por sus ventas.
+          {"\n\n"}Es un método flexible donde tus ganancias dependen de tus ventas
+          y esfuerzo. Con la guía de Paco, podrás iniciar tu negocio de forma
+          independiente y desde cualquier lugar.
         </Text>
       </Container>
 
